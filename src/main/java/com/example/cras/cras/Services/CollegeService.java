@@ -2,6 +2,7 @@ package com.example.cras.cras.Services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,13 +27,34 @@ public class CollegeService {
     return target;
   }
 
-  public boolean addNewCollege(College college) {
-    try {
-      collegeRepository.save(college);
-      return true;
-    } catch (Exception e) {
+  public Optional<College> getCollegeById(long id) {
+    return collegeRepository.findById(id);
+  }
+
+  public void addNewCollege(College college) {
+    collegeRepository.save(college);
+  }
+
+  public boolean updateCollege(long id, College college) {
+    Optional<College> optionalCurrentCollege = collegeRepository.findById(id);
+    if (!optionalCurrentCollege.isPresent())
       return false;
-    }
+
+    College currentCollege = optionalCurrentCollege.get();
+    currentCollege.setAddress(college.getAddress());
+    currentCollege.setCollegeName(college.getCollegeName());
+    currentCollege.setTotalAvailable(college.getTotalAvailable());
+    collegeRepository.save(currentCollege);
+    return true;
+  }
+
+  public boolean deleteCollege(long id) {
+    Optional<College> optionalCurrentCollege = collegeRepository.findById(id);
+    if (!optionalCurrentCollege.isPresent())
+      return false;
+
+    collegeRepository.delete(optionalCurrentCollege.get());
+    return true;
   }
 
 }

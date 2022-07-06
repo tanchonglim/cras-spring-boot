@@ -42,6 +42,10 @@ public class ApplicationService {
     return target;
   }
 
+  public void addApplication(Application application) {
+    applicationRepository.save(application);
+  }
+
   public boolean updateApprovalApplication(long id, Application application) {
     Optional<Application> optionalCurrentApplication = applicationRepository.findById(id);
     if (!optionalCurrentApplication.isPresent())

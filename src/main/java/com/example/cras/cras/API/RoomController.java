@@ -35,6 +35,14 @@ public class RoomController {
   public List<Room> getAllRooms() {
     return roomService.getAllRooms();
   }
+    
+  @GetMapping(path = "{id}")
+  public Room getRoom(@PathVariable("id") long id) {
+    Optional<Room> optionalRoom = roomService.getRoomById(id);
+    if (!optionalRoom.isPresent())
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found");
+    return optionalRoom.get();
+  }
 
   @DeleteMapping(path = "{id}")
   public void deleteRoom(@PathVariable("id") long id) {

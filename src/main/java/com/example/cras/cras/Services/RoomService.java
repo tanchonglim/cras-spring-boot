@@ -26,6 +26,10 @@ public class RoomService {
     source.forEach(target::add);
     return target;
   }
+    
+  public Optional<Room> getRoomById(long id) {
+    return roomRepository.findById(id);
+  }
 
   public boolean deleteRoom(long id) {
     Optional<Room> optionalCurrentRoom = roomRepository.findById(id);
